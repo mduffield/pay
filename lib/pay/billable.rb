@@ -1,4 +1,4 @@
-require 'pay/billable/sync_email'
+require "pay/billable/sync_email"
 
 module Pay
   module Billable
@@ -38,7 +38,7 @@ module Pay
       send("create_#{processor}_charge", amount_in_cents, options)
     end
 
-    def subscribe(name: 'default', plan: 'default', **options)
+    def subscribe(name: "default", plan: "default", **options)
       check_for_processor
       send("create_#{processor}_subscription", name, plan, options)
     end
@@ -49,25 +49,25 @@ module Pay
       send("update_#{processor}_card", token)
     end
 
-    def on_trial?(name: 'default', plan: nil)
+    def on_trial?(name: "default", plan: nil)
       return true if default_generic_trial?(name, plan)
 
       sub = subscription(name: name)
-      return sub && sub.on_trial? if plan.nil?
+      return sub&.on_trial? if plan.nil?
 
-      sub && sub.on_trial? && sub.processor_plan == plan
+      sub&.on_trial? && sub.processor_plan == plan
     end
 
     def on_generic_trial?
       trial_ends_at? && trial_ends_at > Time.zone.now
     end
 
-    def processor_subscription(subscription_id, options={})
+    def processor_subscription(subscription_id, options = {})
       check_for_processor
       send("#{processor}_subscription", subscription_id, options)
     end
 
-    def subscribed?(name: 'default', processor_plan: nil)
+    def subscribed?(name: "default", processor_plan: nil)
       subscription = subscription(name: name)
 
       return false if subscription.nil?
@@ -76,16 +76,16 @@ module Pay
       subscription.active? && subscription.processor_plan == processor_plan
     end
 
-    def on_trial_or_subscribed?(name: 'default', processor_plan: nil)
+    def on_trial_or_subscribed?(name: "default", processor_plan: nil)
       on_trial?(name: name, plan: processor_plan) ||
         subscribed?(name: name, processor_plan: processor_plan)
     end
 
-    def subscription(name: 'default')
+    def subscription(name: "default")
       subscriptions.for_name(name).last
     end
 
-    def invoice!(options={})
+    def invoice!(options = {})
       send("#{processor}_invoice!", options)
     end
 
@@ -116,11 +116,11 @@ module Pay
     end
 
     # Used for creating a Pay::Subscription in the database
-    def create_subscription(subscription, processor, name, plan, options={})
+    def create_subscription(subscription, processor, name, plan, options = {})
       options[:quantity] ||= 1
 
       options.merge!(
-        name: name || 'default',
+        name: name || "default",
         processor: processor,
         processor_id: subscription.id,
         processor_plan: plan,
@@ -132,7 +132,7 @@ module Pay
 
     def default_generic_trial?(name, plan)
       # Generic trials don't have plans or custom names
-      plan.nil? && name == 'default' && on_generic_trial?
+      plan.nil? && name == "default" && on_generic_trial?
     end
   end
 end

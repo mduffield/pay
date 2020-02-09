@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2019_08_16_015720) do
-
   create_table "pay_charges", force: :cascade do |t|
     t.integer "owner_id"
     t.string "processor", null: false
@@ -59,5 +58,4 @@ ActiveRecord::Schema.define(version: 2019_08_16_015720) do
     t.string "card_exp_year"
     t.text "extra_billing_info"
   end
-
 end

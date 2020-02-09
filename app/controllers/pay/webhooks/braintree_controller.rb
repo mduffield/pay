@@ -7,15 +7,15 @@ module Pay
 
       def create
         case webhook_notification.kind
-        when 'subscription_charged_successfully'
+        when "subscription_charged_successfully"
           subscription_charged_successfully(webhook_notification)
-        when 'subscription_canceled'
+        when "subscription_canceled"
           subscription_canceled(webhook_notification)
-        when 'subscription_trial_ended'
+        when "subscription_trial_ended"
           subscription_trial_ended(webhook_notification)
         end
 
-        render json: { success: true }, status: :ok
+        render json: {success: true}, status: :ok
       rescue ::Braintree::InvalidSignature => e
         head :ok
       end

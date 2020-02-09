@@ -1,13 +1,12 @@
 module Pay
   module Stripe
     module Webhooks
-
       class PaymentActionRequired
         def call(event)
           # Event is of type "invoice" see:
           # https://stripe.com/docs/api/invoices/object
 
-          user    = event.data.object.customer
+          user = event.data.object.customer
 
           subscription = Pay.subscription_model.find_by(
             processor: :stripe,
@@ -23,7 +22,6 @@ module Pay
           end
         end
       end
-
     end
   end
 end

@@ -16,7 +16,7 @@ module Pay
 
       included do
         after_update :enqeue_sync_email_job,
-                     if: :should_sync_email_with_processor?
+          if: :should_sync_email_with_processor?
       end
 
       def should_sync_email_with_processor?
