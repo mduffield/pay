@@ -66,7 +66,7 @@ To add the migrations to your application, run the following migration:
 
 We also need to run migrations to add Pay to the User, Account, Team, etc models that we want to make payments in our app.
 
-`bin/rails g pay User`
+`bin/rails g pay:billable User`
 
 This will generate a migration to add Pay fields to our User model and automatically includes the `Pay::Billable` module in our `User` model. Repeat this for all the models you want to make payments in your app.
 
